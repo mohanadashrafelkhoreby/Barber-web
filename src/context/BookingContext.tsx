@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import type { BookingState, Service, PaymentMethod } from '../data/booking';
+import type { BookingState, Service, Barber, PaymentMethod } from '../data/booking';
 
 interface BookingContextValue {
   state: BookingState;
@@ -7,6 +7,7 @@ interface BookingContextValue {
   next: () => void;
   back: () => void;
   setService: (s: Service) => void;
+  setBarber: (b: Barber) => void;
   setDate: (d: string) => void;
   setTimeSlot: (t: string) => void;
   toggleExtra: (id: string) => void;
@@ -19,6 +20,7 @@ interface BookingContextValue {
 const initialState: BookingState = {
   step: 1,
   service: null,
+  barber: null,
   date: '',
   timeSlot: '',
   extras: [],
@@ -37,7 +39,10 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const back = useCallback(() => setState((s) => ({ ...s, step: Math.max(s.step - 1, 1) })), []);
 
   const setService = useCallback((service: Service) =>
-    setState((s) => ({ ...s, service, date: '', timeSlot: '' })), []);
+    setState((s) => ({ ...s, service, barber: null, date: '', timeSlot: '' })), []);
+
+  const setBarber = useCallback((barber: Barber) =>
+    setState((s) => ({ ...s, barber, date: '', timeSlot: '' })), []);
 
   const setDate = useCallback((date: string) =>
     setState((s) => ({ ...s, date, timeSlot: '' })), []);
@@ -64,7 +69,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   return (
     <BookingContext.Provider value={{
       state, goTo, next, back,
-      setService, setDate, setTimeSlot,
+      setService, setBarber, setDate, setTimeSlot,
       toggleExtra, setName, setPhone, setPayment, reset,
     }}>
       {children}

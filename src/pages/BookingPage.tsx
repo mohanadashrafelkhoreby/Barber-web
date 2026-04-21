@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookingProvider, useBooking } from '../context/BookingContext';
 import { ServiceGrid } from '../components/booking/ServiceGrid';
+import { BarberSelect } from '../components/booking/BarberSelect';
 import { DateTimePick } from '../components/booking/DateTimePick';
 import { DetailsPane } from '../components/booking/DetailsPane';
 import { ConfirmScreen } from '../components/booking/ConfirmScreen';
@@ -13,38 +14,48 @@ const BookingFlow: React.FC = () => {
   const [confirmed, setConfirmed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const showDateTime = !!state.service;
-  const showDetails = state.service?.requiresSlot
+  const showBarber   = !!state.service;
+  const showDateTime = !!state.service && !!state.barber;
+  const showDetails  = state.service?.requiresSlot
     ? !!state.timeSlot
     : !!state.date;
 
+  const barberRef  = useRef<HTMLDivElement>(null);
   const dateRef    = useRef<HTMLDivElement>(null);
   const detailsRef = useRef<HTMLDivElement>(null);
 
-  // Scroll to date section when service changes
+  const scrollTo = (ref: React.RefObject<HTMLDivElement | null>, delay = 300) => {
+    setTimeout(() => {
+      if (ref.current) {
+        const top = ref.current.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }, delay);
+  };
+
+  // Scroll to barber when service changes
   const prevServiceId = useRef<string | null>(null);
   useEffect(() => {
     if (state.service && state.service.id !== prevServiceId.current) {
       prevServiceId.current = state.service.id;
-      setTimeout(() => {
-        if (dateRef.current) {
-          const top = dateRef.current.getBoundingClientRect().top + window.scrollY - 100;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
-      }, 300);
+      scrollTo(barberRef);
     }
   }, [state.service]);
+
+  // Scroll to datetime when barber changes
+  const prevBarberId = useRef<string | null>(null);
+  useEffect(() => {
+    if (state.barber && state.barber.id !== prevBarberId.current) {
+      prevBarberId.current = state.barber.id;
+      scrollTo(dateRef);
+    }
+  }, [state.barber]);
 
   // Scroll to details when first revealed
   const prevShowDetails = useRef(false);
   useEffect(() => {
     if (showDetails && !prevShowDetails.current) {
-      setTimeout(() => {
-        if (detailsRef.current) {
-          const top = detailsRef.current.getBoundingClientRect().top + window.scrollY - 100;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
-      }, 350);
+      scrollTo(detailsRef, 350);
     }
     prevShowDetails.current = showDetails;
   }, [showDetails]);
@@ -65,16 +76,26 @@ const BookingFlow: React.FC = () => {
   return (
     <div className="space-y-14 pb-24">
       {/* 01 — Service */}
-      <ServiceGrid onSelected={() => {
-        setTimeout(() => {
-          if (dateRef.current) {
-            const top = dateRef.current.getBoundingClientRect().top + window.scrollY - 100;
-            window.scrollTo({ top, behavior: 'smooth' });
-          }
-        }, 300);
-      }} />
+      <ServiceGrid onSelected={() => scrollTo(barberRef)} />
 
-      {/* 02 — Date & Time */}
+      {/* 02 — Barber */}
+      <AnimatePresence>
+        {showBarber && (
+          <motion.div
+            key="barber"
+            ref={barberRef}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <SectionDivider />
+            <BarberSelect onSelected={() => scrollTo(dateRef)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 03 — Date & Time */}
       <AnimatePresence>
         {showDateTime && (
           <motion.div
@@ -86,19 +107,12 @@ const BookingFlow: React.FC = () => {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
             <SectionDivider />
-            <DateTimePick onTimeSelected={() => {
-              setTimeout(() => {
-                if (detailsRef.current) {
-                  const top = detailsRef.current.getBoundingClientRect().top + window.scrollY - 100;
-                  window.scrollTo({ top, behavior: 'smooth' });
-                }
-              }, 350);
-            }} />
+            <DateTimePick onTimeSelected={() => scrollTo(detailsRef, 350)} />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* 03 — Details */}
+      {/* 04 — Details */}
       <AnimatePresence>
         {showDetails && (
           <motion.div
@@ -132,15 +146,19 @@ const SectionDivider: React.FC = () => (
 
 const ProgressDots: React.FC = () => {
   const { state } = useBooking();
-  const step = !state.service
-    ? 0
-    : state.service.requiresSlot
-    ? (state.timeSlot ? 3 : state.date ? 2 : 1)
-    : (state.date ? 3 : 1);
+
+  // Step 0 = nothing, 1 = service, 2 = barber, 3 = datetime, 4 = details
+  let step = 0;
+  if (state.service) step = 1;
+  if (state.barber)  step = 2;
+  if (state.service?.requiresSlot ? state.date : state.date) step = 3;
+  if (state.service?.requiresSlot ? state.timeSlot : state.date) step = 3;
+  const showDetails = state.service?.requiresSlot ? !!state.timeSlot : !!state.date;
+  if (showDetails) step = 4;
 
   return (
     <div className="flex items-center gap-1.5">
-      {[1, 2, 3].map((i) => (
+      {[1, 2, 3, 4].map((i) => (
         <span
           key={i}
           className={`

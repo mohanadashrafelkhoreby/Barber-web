@@ -28,9 +28,68 @@ export interface TimeSlot {
   available: boolean;
 }
 
+export type BarberSpecialty = 'Fade & Taper' | 'Beard & Groom' | 'VIP & Color' | 'Classic Cut';
+
+export interface Barber {
+  id: string;
+  name: string;
+  initials: string;
+  specialty: BarberSpecialty;
+  rating: number;       // 4.0 – 5.0
+  reviewCount: number;
+  available: boolean;
+  avatarColor: string;  // Tailwind bg class
+  badge?: string;
+}
+
+export const BARBERS: Barber[] = [
+  {
+    id: 'omar',
+    name: 'Omar Al-Rashid',
+    initials: 'OR',
+    specialty: 'VIP & Color',
+    rating: 4.9,
+    reviewCount: 214,
+    available: true,
+    avatarColor: 'bg-gold/15',
+    badge: 'Top Rated',
+  },
+  {
+    id: 'khalid',
+    name: 'Khalid Mansour',
+    initials: 'KM',
+    specialty: 'Fade & Taper',
+    rating: 4.8,
+    reviewCount: 187,
+    available: true,
+    avatarColor: 'bg-blue-500/15',
+  },
+  {
+    id: 'faisal',
+    name: 'Faisal Al-Otaibi',
+    initials: 'FA',
+    specialty: 'Beard & Groom',
+    rating: 4.7,
+    reviewCount: 143,
+    available: true,
+    avatarColor: 'bg-purple-500/15',
+  },
+  {
+    id: 'tariq',
+    name: 'Tariq Nasser',
+    initials: 'TN',
+    specialty: 'Classic Cut',
+    rating: 4.6,
+    reviewCount: 98,
+    available: false,
+    avatarColor: 'bg-emerald-500/15',
+  },
+];
+
 export interface BookingState {
   step: number;
   service: Service | null;
+  barber: Barber | null;
   date: string;       // ISO date string "YYYY-MM-DD"
   timeSlot: string;   // "10:00 AM"
   extras: string[];   // extra service ids

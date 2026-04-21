@@ -113,6 +113,15 @@ export const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ state }) => {
           />
         )}
 
+        {/* Barber */}
+        {state.barber && (
+          <DetailRow
+            icon={<UsersIcon size={14} className="text-[#777]" />}
+            label="Barber"
+            value={state.barber.name}
+          />
+        )}
+
         {/* Date */}
         {state.date && (
           <DetailRow
