@@ -6,6 +6,7 @@ const Home = lazy(() => import('../pages/Home'));
 const Booking = lazy(() => import('../pages/BookingPage'));
 const Points = lazy(() => import('../pages/PointsPage'));
 const Gallery = lazy(() => import('../pages/GalleryPage'));
+const Admin = lazy(() => import('../pages/admin/AdminPage').then((m) => ({ default: m.AdminPage })));
 
 const PageLoader: React.FC = () => (
   <div className="min-h-screen bg-black-900 flex items-center justify-center">
@@ -21,6 +22,7 @@ export const AppRouter: React.FC = () => {
         <Route path="/booking" element={<Booking />} />
         <Route path="/points" element={<Points />} />
         <Route path="/gallery" element={<Gallery />} />
+        <Route path="/admin" element={<Admin />} />
         {/* Catch-all redirect */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
