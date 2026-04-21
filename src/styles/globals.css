@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Poppins:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-black-900 text-white font-body;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    @apply bg-gold text-black-900;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-black-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-surface-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gold-dark;
+  }
+
+  /* Dark chrome for native date picker */
+  input[type="date"],
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    color-scheme: dark;
+    filter: invert(0.8) sepia(0.4) saturate(0.6);
+  }
+}
+
+@layer components {
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-20 md:py-28;
+  }
+
+  .gold-text {
+    @apply text-gold font-heading;
+  }
+
+  .gold-divider {
+    @apply h-px bg-gradient-to-r from-transparent via-gold to-transparent opacity-40;
+  }
+
+  .card-surface {
+    @apply bg-surface rounded-2xl border border-surface-border;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
