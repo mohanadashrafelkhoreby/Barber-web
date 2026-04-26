@@ -50,8 +50,8 @@ export const Gallery: React.FC = () => {
         <div className="gold-divider mb-16" />
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-          {galleryItems.map((item, index) => (
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          {galleryItems.slice(0, 9).map((item, index) => (
             <StyleCard key={item.id} item={item} index={index} />
           ))}
         </div>

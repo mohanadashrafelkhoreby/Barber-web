@@ -143,13 +143,9 @@ export const Navbar: React.FC = () => {
             </span>
           </Link>
 
-          <div className={`rounded-xl transition-all duration-200 ${
-            isActive('/booking') ? 'shadow-[0_0_14px_rgba(201,168,76,0.30)] ring-1 ring-gold/40' : ''
-          }`}>
-            <Button to="/booking" variant="primary" size="sm">
+          <Button to="/booking" variant="primary" size="sm">
               Book Now
             </Button>
-          </div>
         </div>
 
         {/* Mobile Hamburger */}
@@ -222,13 +218,9 @@ export const Navbar: React.FC = () => {
                 <span className="ml-auto text-[10px] text-[#555] font-body">View rewards →</span>
               </Link>
 
-              <div className={`rounded-xl transition-all duration-200 ${
-                isActive('/booking') ? 'shadow-[0_0_14px_rgba(201,168,76,0.28)] ring-1 ring-gold/40' : ''
-              }`}>
-                <Button to="/booking" variant="primary" size="md" fullWidth>
+              <Button to="/booking" variant="primary" size="md" fullWidth>
                   Book Now
                 </Button>
-              </div>
             </div>
           </motion.div>
         )}

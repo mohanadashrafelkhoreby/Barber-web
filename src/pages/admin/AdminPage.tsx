@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { MOCK_ADMIN_BOOKINGS, MOCK_CUSTOMERS, DEFAULT_SETTINGS } from '../../data/admin';
 import type { AdminBooking, BookingStatus, ShopSettings } from '../../data/admin';
@@ -8,16 +7,20 @@ import {
   CalendarIcon,
   UsersIcon,
   SettingsIcon,
-  ArrowLeftIcon,
   ScissorsIcon,
-  LogOutIcon,
+  BarbersIcon,
+  ImageIcon,
+  TagIcon,
 } from '../../components/admin/AdminIcons';
 import { BookingsScreen } from './screens/BookingsScreen';
 import { TodayScreen } from './screens/TodayScreen';
 import { CustomersScreen } from './screens/CustomersScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
+import { BarbersScreen } from './screens/BarbersScreen';
+import { GalleryManagerScreen } from './screens/GalleryManagerScreen';
+import { ServicesManagerScreen } from './screens/ServicesManagerScreen';
 
-type Section = 'bookings' | 'today' | 'customers' | 'settings';
+type Section = 'bookings' | 'today' | 'customers' | 'barbers' | 'gallery' | 'services' | 'settings';
 
 interface NavItem {
   id: Section;
@@ -26,10 +29,13 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { id: 'bookings',  label: 'Bookings',   Icon: BookingsIcon },
-  { id: 'today',     label: 'Today',      Icon: CalendarIcon },
-  { id: 'customers', label: 'Customers',  Icon: UsersIcon },
-  { id: 'settings',  label: 'Settings',   Icon: SettingsIcon },
+  { id: 'bookings',  label: 'Bookings',  Icon: BookingsIcon },
+  { id: 'today',     label: 'Today',     Icon: CalendarIcon },
+  { id: 'customers', label: 'Customers', Icon: UsersIcon },
+  { id: 'barbers',   label: 'Barbers',   Icon: BarbersIcon },
+  { id: 'gallery',   label: 'Gallery',   Icon: ImageIcon },
+  { id: 'services',  label: 'Services',  Icon: TagIcon },
+  { id: 'settings',  label: 'Settings',  Icon: SettingsIcon },
 ];
 
 export const AdminPage: React.FC = () => {
@@ -100,13 +106,6 @@ export const AdminPage: React.FC = () => {
 
         {/* Footer */}
         <div className="p-3 border-t border-black-700 flex-shrink-0">
-          <Link
-            to="/"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#444] hover:text-[#777] hover:bg-[#141414] transition-all duration-150 text-sm font-body"
-          >
-            <LogOutIcon size={16} strokeWidth={1.8} />
-            Back to Site
-          </Link>
         </div>
       </aside>
 
@@ -124,13 +123,6 @@ export const AdminPage: React.FC = () => {
             </span>
             <span className="text-[#333] text-xs font-body ml-1">/ {currentPageTitle}</span>
           </div>
-          <Link
-            to="/"
-            className="flex items-center gap-1.5 text-[#444] hover:text-[#777] transition-colors text-xs font-body"
-          >
-            <ArrowLeftIcon size={14} />
-            Site
-          </Link>
         </header>
 
         {/* Page content */}
@@ -155,6 +147,15 @@ export const AdminPage: React.FC = () => {
                 key="customers"
                 customers={MOCK_CUSTOMERS}
               />
+            )}
+            {section === 'barbers' && (
+              <BarbersScreen key="barbers" />
+            )}
+            {section === 'gallery' && (
+              <GalleryManagerScreen key="gallery" />
+            )}
+            {section === 'services' && (
+              <ServicesManagerScreen key="services" />
             )}
             {section === 'settings' && (
               <SettingsScreen

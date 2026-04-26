@@ -203,6 +203,90 @@ export const SettingsScreen: React.FC<Props> = ({ settings, onSave }) => {
               : 'No working days selected'}
           </p>
         </section>
+
+        {/* Booking Duration */}
+        <section className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-5">
+          <h2 className="text-sm font-body font-semibold text-white mb-4 pb-3 border-b border-[#1A1A1A]">
+            Booking Duration
+          </h2>
+          <Field
+            label="Time between bookings"
+            description="Gap added between consecutive appointments to allow preparation time."
+          >
+            <div className="flex flex-wrap gap-2 mt-1">
+              {[15, 30, 60].map((mins) => {
+                const active = form.timeBetweenBookings === mins;
+                return (
+                  <button
+                    key={mins}
+                    type="button"
+                    onClick={() => update('timeBetweenBookings', mins)}
+                    className={`px-4 py-2 rounded-xl text-sm font-body font-medium border transition-all duration-150 ${
+                      active
+                        ? 'bg-gold/10 border-gold/40 text-gold'
+                        : 'bg-[#0A0A0A] border-[#1A1A1A] text-[#555] hover:border-[#2A2A2A] hover:text-[#888]'
+                    }`}
+                  >
+                    {mins} min
+                  </button>
+                );
+              })}
+              {/* Custom */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (![15, 30, 60].includes(form.timeBetweenBookings)) return;
+                    update('timeBetweenBookings', 0);
+                  }}
+                  className={`px-4 py-2 rounded-xl text-sm font-body font-medium border transition-all duration-150 ${
+                    ![15, 30, 60].includes(form.timeBetweenBookings)
+                      ? 'bg-gold/10 border-gold/40 text-gold'
+                      : 'bg-[#0A0A0A] border-[#1A1A1A] text-[#555] hover:border-[#2A2A2A] hover:text-[#888]'
+                  }`}
+                >
+                  Custom
+                </button>
+                {![15, 30, 60].includes(form.timeBetweenBookings) && (
+                  <input
+                    type="number"
+                    min={1}
+                    max={240}
+                    value={form.timeBetweenBookings || ''}
+                    onChange={(e) => update('timeBetweenBookings', Math.max(1, parseInt(e.target.value) || 1))}
+                    placeholder="min"
+                    className="w-20 bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl px-3 py-2 text-sm font-body text-white placeholder-[#333] focus:outline-none focus:border-[#333] transition-colors"
+                  />
+                )}
+              </div>
+            </div>
+          </Field>
+        </section>
+
+        {/* Points Value Control */}
+        <section className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-5">
+          <h2 className="text-sm font-body font-semibold text-white mb-4 pb-3 border-b border-[#1A1A1A]">
+            Points Value Control
+          </h2>
+          <Field
+            label="1 point equals"
+            description="Defines how much currency value one loyalty point is worth when redeemed."
+          >
+            <div className="flex items-center gap-3 mt-1">
+              <span className="text-sm font-body text-[#555] flex-shrink-0">EGP</span>
+              <input
+                type="number"
+                min={0.01}
+                step={0.01}
+                value={form.pointValue}
+                onChange={(e) => update('pointValue', Math.max(0.01, parseFloat(e.target.value) || 0.01))}
+                className="w-32 bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl px-4 py-2.5 text-sm font-body text-white placeholder-[#333] focus:outline-none focus:border-[#333] transition-colors"
+                placeholder="0.10"
+              />
+              <span className="text-sm font-body text-[#444]">per point</span>
+            </div>
+          </Field>
+        </section>
       </div>
     </motion.div>
   );

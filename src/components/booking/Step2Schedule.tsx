@@ -26,9 +26,7 @@ export const Step2Schedule: React.FC = () => {
 
   const requiresSlot = state.service?.requiresSlot ?? true;
 
-  const canContinue = requiresSlot
-    ? !!state.date && !!state.timeSlot
-    : true;
+  const canContinue = !!state.date;
 
   return (
     <div>

@@ -7,7 +7,7 @@ export interface GalleryItem {
 }
 
 // Filter categories used on the /gallery page
-export type GalleryFilter = 'All' | 'Haircut' | 'Beard' | 'VIP';
+export type GalleryFilter = 'All' | 'Haircut' | 'Beard';
 
 export const galleryItems: GalleryItem[] = [
   // ── Haircut ──
@@ -79,21 +79,21 @@ export const galleryItems: GalleryItem[] = [
   {
     id: 10,
     title: 'VIP Signature Cut',
-    category: 'VIP',
+    category: 'Haircut',
     imageUrl: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=85&fit=crop',
     aspectRatio: 'portrait',
   },
   {
     id: 11,
     title: 'Executive Style',
-    category: 'VIP',
+    category: 'Haircut',
     imageUrl: 'https://images.unsplash.com/photo-1541585452817-f27c05c61cb7?w=800&q=85&fit=crop',
     aspectRatio: 'portrait',
   },
   {
     id: 12,
     title: 'Full Groom Package',
-    category: 'VIP',
+    category: 'Beard',
     imageUrl: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=85&fit=crop&crop=faces',
     aspectRatio: 'portrait',
   },

@@ -14,7 +14,6 @@ const FILTERS: FilterMeta[] = [
   { label: 'All',     description: 'Full portfolio' },
   { label: 'Haircut', description: 'Fades & tapers' },
   { label: 'Beard',   description: 'Sculpts & trims' },
-  { label: 'VIP',     description: 'Signature cuts' },
 ];
 
 // ─── Inline SVG icons (no emoji) ─────────────
@@ -37,13 +36,6 @@ const BeardIcon = ({ size = 14 }: { size?: number }) => (
   </svg>
 );
 
-const CrownIcon = ({ size = 14 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-    <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
-  </svg>
-);
-
 const GridIcon = ({ size = 14 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
@@ -56,7 +48,6 @@ const FILTER_ICONS: Record<GalleryFilter, React.ReactNode> = {
   All:     <GridIcon />,
   Haircut: <ScissorsIcon />,
   Beard:   <BeardIcon />,
-  VIP:     <CrownIcon />,
 };
 
 // ─── Lightbox ─────────────────────────────────
