@@ -130,11 +130,46 @@ export const StarFilledIcon = ({ size = 12, className = '' }: { size?: number; c
   </svg>
 );
 
+export const StarIcon = (p: IconProps) => (
+  <S {...p}>
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+  </S>
+);
+
 export const LogOutIcon = (p: IconProps) => (
   <S {...p}>
     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
     <polyline points="16 17 21 12 16 7" />
     <line x1="21" y1="12" x2="9" y2="12" />
+  </S>
+);
+
+export const UserIcon = (p: IconProps) => (
+  <S {...p}>
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+  </S>
+);
+
+export const PlusIcon = (p: IconProps) => (
+  <S {...p}>
+    <path d="M12 5v14M5 12h14" />
+  </S>
+);
+
+export const EditIcon = (p: IconProps) => (
+  <S {...p}>
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+  </S>
+);
+
+export const BarbersIcon = (p: IconProps) => (
+  <S {...p}>
+    <circle cx="9" cy="7" r="3" />
+    <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    <path d="M21 21v-2a4 4 0 0 0-3-3.85" />
   </S>
 );
 
@@ -162,5 +197,40 @@ export const SaveIcon = (p: IconProps) => (
     <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
     <polyline points="17 21 17 13 7 13 7 21" />
     <polyline points="7 3 7 8 15 8" />
+  </S>
+);
+
+export const ImageIcon = (p: IconProps) => (
+  <S {...p}>
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <circle cx="8.5" cy="8.5" r="1.5" />
+    <path d="m21 15-5-5L5 21" />
+  </S>
+);
+
+export const TagIcon = (p: IconProps) => (
+  <S {...p}>
+    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+    <line x1="7" y1="7" x2="7.01" y2="7" />
+  </S>
+);
+
+export const TrashIcon = (p: IconProps) => (
+  <S {...p}>
+    <path d="M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+  </S>
+);
+
+export const CreditCardIcon = (p: IconProps) => (
+  <S {...p}>
+    <rect x="1" y="4" width="22" height="16" rx="2" />
+    <path d="M1 10h22" />
+  </S>
+);
+
+export const ReceiptIcon = (p: IconProps) => (
+  <S {...p}>
+    <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z" />
+    <path d="M9 9h6M9 13h6" />
   </S>
 );

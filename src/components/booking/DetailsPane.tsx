@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EXTRAS, PAYMENT_OPTIONS } from '../../data/booking';
 import type { PaymentMethod } from '../../data/booking';
+import { MOCK_POINTS } from '../../data/points';
 import { useBooking } from '../../context/BookingContext';
 import {
   PlusIcon,
@@ -29,13 +30,23 @@ interface DetailsPaneProps {
   submitting: boolean;
 }
 
+const POINTS_PER_DOLLAR = 100;
+
 export const DetailsPane: React.FC<DetailsPaneProps> = ({ onConfirm, submitting }) => {
   const { state, toggleExtra, setName, setPhone, setPayment } = useBooking();
   const [extrasOpen, setExtrasOpen] = useState(false);
+  const [pointsInput, setPointsInput] = useState('');
 
   // Derived
   const extrasTotal = EXTRAS.filter((e) => state.extras.includes(e.id))
     .reduce((s, e) => s + e.price, 0);
+
+  const enteredPoints = Math.min(
+    Math.max(0, parseInt(pointsInput || '0', 10) || 0),
+    MOCK_POINTS
+  );
+  const pointsDiscount = Math.floor(enteredPoints / POINTS_PER_DOLLAR);
+  const discountedExtrasTotal = Math.max(0, extrasTotal - pointsDiscount);
 
   const isNameValid = state.name.trim().length >= 2;
   const isPhoneValid = /^\+?[\d\s\-().]{7,}$/.test(state.phone.trim());
@@ -289,6 +300,49 @@ export const DetailsPane: React.FC<DetailsPaneProps> = ({ onConfirm, submitting 
 
         <div className="h-px bg-[#1E1E1E]" />
 
+        {/* ── Use Points ── */}
+        <div className="p-5">
+          <p className="text-[10px] uppercase tracking-[0.25em] text-[#9A9A9A] font-accent mb-4">
+            Use Points
+          </p>
+          <p className="text-[11px] text-[#555] font-body mb-3">
+            Available:{' '}
+            <span className="text-gold font-heading font-semibold">{MOCK_POINTS} pts</span>
+            <span className="text-[#3A3A3A] ml-1.5">· 100 pts = $1</span>
+          </p>
+          <div className="relative">
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#444]">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+            </span>
+            <input
+              type="number"
+              value={pointsInput}
+              onChange={(e) => setPointsInput(e.target.value)}
+              placeholder="Enter points to redeem"
+              min={0}
+              max={MOCK_POINTS}
+              className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#141414] border border-[#222] font-body text-sm text-white placeholder-[#333] outline-none transition-all duration-200 focus:border-gold/30 focus:bg-[#161616] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+          </div>
+          <AnimatePresence>
+            {enteredPoints > 0 && (
+              <motion.p
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ opacity: 1, height: 'auto', marginTop: 8 }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                transition={{ duration: 0.2 }}
+                className="text-[11px] text-gold/70 font-body"
+              >
+                {enteredPoints} pts redeemed → <span className="text-gold font-semibold">-${pointsDiscount} off</span>
+              </motion.p>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div className="h-px bg-[#1E1E1E]" />
+
         {/* ── Summary & Confirm ── */}
         <div className="p-5">
           {/* Price summary */}
@@ -303,14 +357,20 @@ export const DetailsPane: React.FC<DetailsPaneProps> = ({ onConfirm, submitting 
                 <span className="text-xs text-white font-heading font-semibold">+${extrasTotal}</span>
               </div>
             )}
+            {pointsDiscount > 0 && (
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-emerald-400/80 font-body">Points Discount</span>
+                <span className="text-xs text-emerald-400 font-heading font-semibold">-${pointsDiscount}</span>
+              </div>
+            )}
             <div className="h-px bg-[#1E1E1E] my-2" />
             <div className="flex items-center justify-between">
               <span className="text-xs text-[#9A9A9A] font-body">Due today</span>
               <span className="text-sm text-gold font-heading font-bold">
-                {state.payment === 'deposit' && extrasTotal > 0
-                  ? `$${Math.ceil(extrasTotal / 2)} deposit`
-                  : state.payment === 'online' && extrasTotal > 0
-                  ? `$${extrasTotal} add-ons`
+                {state.payment === 'deposit' && discountedExtrasTotal > 0
+                  ? `$${Math.ceil(discountedExtrasTotal / 2)} deposit`
+                  : state.payment === 'online' && discountedExtrasTotal > 0
+                  ? `$${discountedExtrasTotal} add-ons`
                   : 'At appointment'}
               </span>
             </div>
