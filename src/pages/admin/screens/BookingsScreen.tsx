@@ -35,7 +35,7 @@ const PAYMENT_LABELS: Record<string, string> = {
 const StatusBadge: React.FC<{ status: BookingStatus }> = ({ status }) => {
   const cfg = STATUS_CONFIG[status];
   return (
-    <span className={`inline-flex items-center px-2.5 py-1 rounded text-[11px] font-body font-medium border ${cfg.bg} ${cfg.border} ${cfg.textColor}`}>
+    <span className={`inline-flex items-center justify-center justify-self-start px-2.5 h-7 rounded text-[11px] font-body font-medium border ${cfg.bg} ${cfg.border} ${cfg.textColor}`}>
       {cfg.label}
     </span>
   );
@@ -47,17 +47,17 @@ const ActionButtons: React.FC<{
 }> = ({ booking, onUpdate }) => {
   if (booking.status === 'pending') {
     return (
-      <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+      <div className="flex items-center gap-2 w-full" onClick={(e) => e.stopPropagation()}>
         <button
           onClick={() => onUpdate(booking.id, 'approved')}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-emerald-500/30 text-emerald-400 text-xs font-body font-medium hover:bg-emerald-500/10 transition-colors duration-150"
+          className="inline-flex items-center gap-1.5 px-3 h-7 rounded-lg border border-emerald-500/30 text-emerald-400 text-xs font-body font-medium hover:bg-emerald-500/10 transition-colors duration-150"
         >
           <CheckCircleIcon size={14} strokeWidth={2} />
           Approve
         </button>
         <button
           onClick={() => onUpdate(booking.id, 'rejected')}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-red-500/30 text-red-400 text-xs font-body font-medium hover:bg-red-500/10 transition-colors duration-150"
+          className="inline-flex items-center gap-1.5 px-3 h-7 rounded-lg border border-red-500/30 text-red-400 text-xs font-body font-medium hover:bg-red-500/10 transition-colors duration-150"
         >
           <XCircleIcon size={14} strokeWidth={2} />
           Reject
@@ -65,7 +65,7 @@ const ActionButtons: React.FC<{
         <a
           href={`tel:${booking.phone}`}
           onClick={(e) => e.stopPropagation()}
-          className="flex items-center justify-center px-3 py-1.5 rounded-lg border border-[#2A2A2A] text-[#666] hover:text-[#999] hover:border-[#444] transition-colors duration-150"
+          className="ml-auto inline-flex items-center justify-center w-7 h-7 rounded-lg border border-[#2A2A2A] text-[#666] hover:text-[#999] hover:border-[#444] transition-colors duration-150 shrink-0"
         >
           <PhoneIcon size={13} strokeWidth={2} />
         </a>
@@ -74,10 +74,10 @@ const ActionButtons: React.FC<{
   }
   if (booking.status === 'approved') {
     return (
-      <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+      <div className="flex items-center gap-2 w-full" onClick={(e) => e.stopPropagation()}>
         <button
           onClick={() => onUpdate(booking.id, 'done')}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#3A3A3A] text-[#888] text-xs font-body font-medium hover:border-[#555] hover:text-white transition-colors duration-150"
+          className="inline-flex items-center gap-1.5 px-3 h-7 rounded-lg border border-[#3A3A3A] text-[#888] text-xs font-body font-medium hover:border-[#555] hover:text-white transition-colors duration-150"
         >
           <CheckSquareIcon size={14} strokeWidth={2} />
           Mark Done
@@ -85,7 +85,7 @@ const ActionButtons: React.FC<{
         <a
           href={`tel:${booking.phone}`}
           onClick={(e) => e.stopPropagation()}
-          className="flex items-center justify-center px-3 py-1.5 rounded-lg border border-[#2A2A2A] text-[#666] hover:text-[#999] hover:border-[#444] transition-colors duration-150"
+          className="ml-auto inline-flex items-center justify-center w-7 h-7 rounded-lg border border-[#2A2A2A] text-[#666] hover:text-[#999] hover:border-[#444] transition-colors duration-150 shrink-0"
         >
           <PhoneIcon size={13} strokeWidth={2} />
         </a>
